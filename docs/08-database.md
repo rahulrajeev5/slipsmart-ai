@@ -27,6 +27,11 @@ PostgreSQL is a better fit than a document database because the system will requ
 
 ---
 
+# Entity Relationship Diagram
+
+![ER Diagram](images/database/er-diagram.png)
+
+The diagram above illustrates the relationships between the core entities of the application.
 # Core Tables
 
 ## users
