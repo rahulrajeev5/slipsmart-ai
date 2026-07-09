@@ -16,7 +16,7 @@
 # PostgreSQL
 import uuid
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -38,9 +38,11 @@ def get_service(db: Session = Depends(get_db)) -> CompetitionService:
 
 @router.get("", response_model=list[CompetitionResponse])
 def list_competitions(
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=20, ge=1, le=100),
     service: CompetitionService = Depends(get_service),
 ):
-    return service.list_competitions()
+    return service.list_competitions(page=page, page_size=page_size)
 
 
 @router.get("/{competition_id}", response_model=CompetitionResponse)

@@ -12,8 +12,16 @@ class CompetitionRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def list(self) -> list[Competition]:
-        return self.db.query(Competition).order_by(Competition.created_at.desc()).all()
+    def list(self, page: int, page_size: int) -> list[Competition]:
+        offset = (page - 1) * page_size
+
+        return (
+            self.db.query(Competition)
+            .order_by(Competition.created_at.desc())
+            .offset(offset)
+            .limit(page_size)
+            .all()
+        )
 
     def get_by_id(self, competition_id: uuid.UUID) -> Optional[Competition]:
         return (
